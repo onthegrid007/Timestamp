@@ -6,6 +6,9 @@
 template<typename T>
 class _Timestamp : public std::chrono::time_point<T> {
     public:
+    template<typename... Args>
+    _Timestamp(Args ... args) :
+        std::chrono::time_point<T>(args...) {}
     _Timestamp() :
         std::chrono::time_point<T>(T::now()) {}
 };
