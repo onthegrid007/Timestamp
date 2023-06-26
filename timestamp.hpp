@@ -3,16 +3,16 @@
 
 #include <chrono>
 
-template<typename T>
-class _Timestamp : public std::chrono::time_point<T> {
+template<typename C = std::chrono::high_resolution_clock, typename T = uint64_t, typename D = std::chrono::duration<T, std::nano>>
+class _Timestamp : public std::chrono::time_point<C, D> {
     public:
-    template<typename... Args>
-    _Timestamp(Args ... args) :
-        std::chrono::time_point<T>(args...) {}
-    _Timestamp() :
-        std::chrono::time_point<T>(T::now()) {}
+    typedef C ClockType;
+    typedef D Duration;
+    typedef std::chrono::time_point<ClockType, Duration> TP;
+    _Timestamp() : TP(std::chrono::time_point_cast<Duration>(ClockType::now())) {}
+    explicit constexpr _Timestamp(const TP& tp) : TP(tp) {}
 };
 
-typedef _Timestamp<std::chrono::steady_clock> Timestamp;
+typedef _Timestamp<> Timestamp;
 
 #endif

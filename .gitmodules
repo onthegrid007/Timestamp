@@ -1,0 +1,3 @@
+[submodule "vendor/SI"]
+	path = vendor/SI
+	url = https://github.com/bernedom/SI
